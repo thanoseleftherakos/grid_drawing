@@ -11,7 +11,16 @@ const mix = require('laravel-mix');
  |
  */
 
+
+mix.browserSync({
+    proxy: 'https://maria-flag.test',
+});
+
 mix.js('resources/js/app.js', 'public/js')
-    .postCss('resources/css/app.css', 'public/css', [
-        //
-    ]);
+    .copy('resources/fonts', 'public/fonts')
+    .sass('resources/sass/style.scss', 'public/css')
+        .sourceMaps();
+
+if (mix.inProduction()) {
+    mix.version();
+}

@@ -1,0 +1,41 @@
+@import "reset";
+@import "grid";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;800&display=swap');
+
+body {
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+}
+* {
+    box-sizing: border-box;
+}
+
+.btn {
+    border: none;
+    outline: none;
+    background: #fff;
+    padding: 10px 15px;
+    border-radius: 2px;;
+    letter-spacing: 2px;
+    font-weight: 800;;
+    min-width: 120px;;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    &:hover {
+        opacity: 0.6;
+    }
+    &--green {
+        color:  #0b1015;
+        background:  rgb(83, 241, 68);
+    }
+    &--red {
+        color:  #fff;
+        background: rgb(240, 54, 54);
+    }
+    &--blue {
+        color:#fff;
+        background: rgb(51, 153, 236);
+    }
+
+}
