@@ -10,13 +10,13 @@
             <div class="draw-settings__row">
                 <h4>Image</h4>
                 <h5>Upload Image: <input @change="onFileChange" type="file" name="image" id="" accept="image/png, image/jpeg"></h5>
-                <h5 v-if="imageUrl">Position: 
+                <h5 v-if="image">Position: 
                     <button class="btn--small" @click.prevent="imgPosition.y -= 2"><i class="fas fa-arrow-up"></i></button> 
                     <button class="btn--small" @click.prevent="imgPosition.y +=2"><i class="fas fa-arrow-down"></i></button> 
                     <button class="btn--small" @click.prevent="imgPosition.x -= 2"><i class="fas fa-arrow-left"></i></button> 
                     <button class="btn--small" @click.prevent="imgPosition.x +=2"><i class="fas fa-arrow-right"></i></button> 
                 </h5>
-                <h5 v-if="imageUrl">Scale: 
+                <h5 v-if="image">Scale: 
                     <button class="btn--small" @click.prevent="imgPosition.scale += 0.05"><i class="fas fa-plus"></i></button> 
                     <button class="btn--small" @click.prevent="imgPosition.scale -= 0.05"><i class="fas fa-minus"></i></button>
                 </h5> 
@@ -24,8 +24,8 @@
         </div>
         <div class="draw-settings__actions">
             <div class="draw-settings__actions__inner">
-                <button class="btn btn--green">SAVE</button>
-                <button class="btn btn--red" @click="confirmReset">RESET</button>
+                <button class="btn btn--green" @click.prevent="saveSymbol">{{ symbol_id ? 'UPDATE' : 'SAVE' }}</button>
+                <button class="btn btn--red" @click="confirmReset">CLEAR</button>
             </div>
         </div>
     </div>
@@ -33,10 +33,10 @@
 
 <script>
     export default {
-        props: ['drawMode', 'totalPoints', 'resolution'],
+        props: ['drawMode', 'totalPoints', 'resolution', 'symbol_id'],
         data() {
             return {
-                imageUrl: null,
+                image: null,
                 imgPosition: {
                     x: 0,
                     y: 0,
@@ -58,8 +58,9 @@
         methods: {
             onFileChange(e) {
                 const file = e.target.files[0];
-                this.imageUrl = URL.createObjectURL(file);
-                this.$emit('imageChanged', this.imageUrl)
+                this.image = file;
+                // this.imageUrl = URL.createObjectURL(file);
+                this.$emit('imageChanged', this.image)
             },
             
             confirmReset() {
@@ -78,6 +79,10 @@
                     if (e.key == '-') this.imgPosition.scale -= 0.05;
                 });
             },
+
+            saveSymbol() {
+                this.$emit('savePressed')
+            }
         }
     }
 </script>
