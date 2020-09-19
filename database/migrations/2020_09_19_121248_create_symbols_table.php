@@ -21,6 +21,7 @@ class CreateSymbolsTable extends Migration
             $table->integer('position_x')->nullable();
             $table->integer('position_y')->nullable();
             $table->decimal('scale', 5, 2)->nullable();
+            $table->decimal('rotate', 5, 2)->nullable();
             $table->timestamps();
         });
     }

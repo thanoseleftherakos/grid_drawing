@@ -20,6 +20,10 @@
                     <button class="btn--small" @click.prevent="imgPosition.scale += 0.05"><i class="fas fa-plus"></i></button> 
                     <button class="btn--small" @click.prevent="imgPosition.scale -= 0.05"><i class="fas fa-minus"></i></button>
                 </h5> 
+                <h5 v-if="image">Rotate: 
+                    <button class="btn--small" @click.prevent="imgPosition.rotate += 1"><i style="transform: scaleX(-1);" class="fas fa-undo"></i></button>
+                    <button class="btn--small" @click.prevent="imgPosition.rotate -= 1"><i class="fas fa-undo"></i></button> 
+                </h5> 
             </div>
         </div>
         <div class="draw-settings__actions">
@@ -40,7 +44,8 @@
                 imgPosition: {
                     x: 0,
                     y: 0,
-                    scale: 1
+                    scale: 1,
+                    rotate: 0
                 }
             }
         },

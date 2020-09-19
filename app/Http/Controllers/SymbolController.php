@@ -56,6 +56,7 @@ class SymbolController extends Controller
             $symbol->position_x = $data->img_position->x;
             $symbol->position_y = $data->img_position->y;
             $symbol->scale = $data->img_position->scale;
+            $symbol->rotate = $data->img_position->rotate;
             $symbol->image = $path;
         }
         if($data->symbol_id) {

@@ -17,7 +17,7 @@
                     <div class="grid-c__box__bgimage" v-if="bgImageUrl">
                         <img 
                             :src="bgImageUrl"
-                            :style="{ transform: `translate( ${imgPosition.x}px, ${imgPosition.y}px ) scale(${imgPosition.scale})` }"
+                            :style="{ transform: `translate( ${imgPosition.x}px, ${imgPosition.y}px ) scale(${imgPosition.scale}) rotate(${imgPosition.rotate}deg)` }"
                         >
                     </div>
                     <div class="grid-c__box__row" v-for="(rows, rows_key) in grid_size[0]" v-bind:key="'row_'+rows_key">
@@ -53,7 +53,8 @@
                 imgPosition: {
                     x: 0,
                     y: 0,
-                    scale: 1
+                    scale: 1,
+                    rotate: 0
                 }
             }
         },
@@ -137,6 +138,7 @@
                 this.bgImage = image;
             },
             setImagePosition(position) {
+                console.log(position)
                 this.imgPosition = position;
             }
         }
