@@ -40,6 +40,9 @@ $height: 12px;
             &.active {
                 background: #000;
             }
+            &.center {
+                outline: 2px solid rgb(240, 54, 54);
+            }
         }
     }
 }

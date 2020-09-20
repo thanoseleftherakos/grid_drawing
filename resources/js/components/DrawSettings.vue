@@ -32,7 +32,7 @@
                     {{ symbol_id ? 'UPDATE' : 'SAVE' }}
                     <div class="spinner" v-if="loading"></div>
                 </button>
-                <button class="btn btn--blue" @click.prevent="$emit('newsymbol')" v-if="symbol_id">NΕW</button>
+                <button class="btn btn--blue" @click.prevent="newSymbol" v-if="symbol_id">NΕW</button>
                 <button class="btn btn--red" @click="confirmReset">CLEAR</button>
             </div>
         </div>
@@ -91,6 +91,11 @@
 
             saveSymbol() {
                 this.$emit('savePressed')
+            },
+            newSymbol(){
+                if (confirm("Are you sure!? Any unsaved changes will be lost 😳")) {
+                    this.$emit('newsymbol')
+                }
             }
         }
     }

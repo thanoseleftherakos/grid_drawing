@@ -249,6 +249,10 @@ pre {
   background: #000;
 }
 
+.grid-c__box__item.center {
+  outline: 2px solid #f03636;
+}
+
 .spinner {
   position: absolute;
   right: 5px;

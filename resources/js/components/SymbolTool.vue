@@ -24,10 +24,10 @@
                     </div>
                     <div class="grid-c__box__row" v-for="(rows, rows_key) in grid_size[0]" v-bind:key="'row_'+rows_key">
                         <div 
-                            class="grid-c__box__item" 
+                            class="grid-c__box__item"
                             v-for="(cols, cols_key) in grid_size[1]"
                             v-bind:key="'col_'+cols_key"
-                            :class="{ 'active' : isChecked([rows_key + 1, cols_key + 1]) }"
+                            :class="{ 'active' : isChecked([rows_key + 1, cols_key + 1]), center : itemIsCenter(rows_key+1,cols_key+1) }"
                             @mouseover = "drawMode ? checkUncheck([rows_key + 1, cols_key + 1]) : ''"
                             @click = "checkUncheck([rows_key + 1, cols_key + 1])"
                         ></div>
@@ -155,6 +155,12 @@
             },
             setImagePosition(position) {
                 this.imgPosition = position;
+            },
+            itemIsCenter(x,y) {
+                if( x == this.grid_size[0]/2 && y == this.grid_size[1]/2) {
+                    return true;
+                }
+                return false;
             },
 
             async setPreviewImage() {
