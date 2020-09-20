@@ -51,16 +51,18 @@ export default {
             width: 100%;
             display: flex;
             flex-wrap: wrap;
+            justify-content: space-between;
         }
         &__item {
             flex: 0 1 calc(25% - 15px);
+            margin-bottom: 20px;
             transition: opacity 0.2s ease;
             &:hover {
                 opacity: 0.5;
             }
             img {
                 display: block;
-                max-width: 300px;
+                // max-width: 300px;
             }
         }
         &__close {
