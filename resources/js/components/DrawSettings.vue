@@ -25,6 +25,10 @@
                     <button class="btn--small" @click.prevent="imgPosition.rotate -= 1"><i class="fas fa-undo"></i></button> 
                 </h5> 
             </div>
+            <div class="draw-settings__row">
+                <h4>Symbols</h4>
+                <h5><a href="#" @click.prevent="$emit('showpreview')">View all created symbols <i class="fas fa-arrow-right"></i></a></h5>
+            </div>
         </div>
         <div class="draw-settings__actions">
             <div class="draw-settings__actions__inner">
@@ -108,13 +112,15 @@
         width: 30vw;
         top: 0;
         height: 100vh;
-        overflow-y: scroll;
-        overflow-x: hidden;
         background: #0b1015;
         color: #fff;
         &__inner {
             position: relative;
-            padding: 20px 30px 30px
+            padding: 20px 30px 30px;
+            overflow-y: scroll;
+            height: 100%;
+            overflow-x: hidden;
+            padding-bottom: 100px;
         }
         h3 {
             font-size: 2em;
@@ -128,11 +134,18 @@
             margin-bottom: 25px;
             padding-bottom: 10px;
             border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            &:last-child {
+                border :none;
+            }
             h4 {
                 font-size: 1.2em;
                 font-weight: 800;
                 margin: 0;
                 margin-bottom: 10px;
+            }
+            a {
+                color: #00C6B5;
+                text-decoration: none;
             }
             h5 {
                 margin-bottom: 10px;
@@ -154,8 +167,10 @@
             bottom: 0;
             left: 0;
             width: 100%;
+            background: #192430;
             &__inner {
-                padding: 30px;
+                // border-top: 2px solid rgba(255, 255, 255, 0.2);
+                padding: 20px 30px;
                 position: relative;
                 display: flex;
                 justify-content: space-between;

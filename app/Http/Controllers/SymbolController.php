@@ -16,7 +16,11 @@ class SymbolController extends Controller
      */
     public function index()
     {
-        //
+        $symbols = Symbol::select('id','preview')->get();
+        return response()->json([
+            'success' => true,
+            'symbols' => $symbols
+        ], 200);   
     }
 
     /**
@@ -51,7 +55,7 @@ class SymbolController extends Controller
             $img_contents = file_get_contents($request->image->path());
             $original_name = strtolower(str_replace(' ', '', $request->image->getClientOriginalName()));
             $file_name = time().rand(100,999).$original_name;
-            $path = Storage::putFile('scans', $request->image, 'public');
+            $path = Storage::disk('public')->putFile('/scans', $request->image, 'public');
             
             $symbol->position_x = $data->img_position->x;
             $symbol->position_y = $data->img_position->y;
@@ -63,7 +67,8 @@ class SymbolController extends Controller
             $img_data = substr($data->preview_image, strpos($data->preview_image, ',') + 1);
             $img_data = base64_decode($img_data);
             $filename = time().rand(100,999).".png";
-            $saved = Storage::disk('local')->put($filename, $img_data);
+            $saved = Storage::disk('public')->put($filename, $img_data);
+            Storage::disk('public')->delete($symbol->preview);
             if($saved) {
                 $symbol->preview = $filename;
             }
@@ -101,7 +106,11 @@ class SymbolController extends Controller
      */
     public function show($id)
     {
-        //
+        $symbol = Symbol::with('points')->findOrFail($id);
+        return response()->json([
+            'success' => true,
+            'symbol' => $symbol
+        ], 200);
     }
 
     /**

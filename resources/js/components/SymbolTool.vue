@@ -1,5 +1,12 @@
 <template>
     <div class="symbol-create">
+        <transition name="fade">
+        <symbols-preview 
+            @setActiveItem="setActivesymbol"
+            @closepreview="closepreview" 
+            v-if="showPreview"
+        ></symbols-preview>
+        </transition>
         <toaster :show.sync="toaster.show" :message="toaster.message" :success="toaster.success"></toaster>
         <draw-settings 
             :drawMode.sync="drawMode" 
@@ -12,6 +19,7 @@
             @resetPoints="resetPoints"
             @savePressed="saveSymbol"
             @newsymbol="newSymbol"
+            @showpreview="openpreview"
         ></draw-settings>
         <div class="grid-c">
             <div class="grid-c__container">
@@ -61,6 +69,7 @@
                 },
                 previewImage: null,
                 loading: false,
+                showPreview: false,
             }
         },
         mounted() {
@@ -68,10 +77,10 @@
         },
         computed: {
             bgImageUrl: function() {
-                if(this.bgImage) {
+                if(this.bgImage && typeof this.bgImage === 'object') {
                     return URL.createObjectURL(this.bgImage);
                 }
-                return '';
+                return this.bgImage;
             }
         },
         methods: {
@@ -79,7 +88,7 @@
             async saveSymbol() {
                 this.loading = true;
                 const data = new FormData();
-                if(this.bgImage) {
+                if(this.bgImage && this.bgImage instanceof File) {
                     data.append('image', this.bgImage);
                 }
                 await this.setPreviewImage();
@@ -161,6 +170,40 @@
                     return true;
                 }
                 return false;
+            },
+            closepreview() {
+                this.showPreview = false;
+            },
+            openpreview() {
+                this.showPreview = true;
+            },
+            setActivesymbol(id) {
+                this.loading = true;
+                axios.get(`/api/symbols/${id}`)
+                .then((response) => {
+                    if(response.data.success) {
+                        this.points = response.data.symbol.points;
+                        if(response.data.symbol.points.length) {
+                            const new_points = [];
+                            response.data.symbol.points.forEach((point, index) => {
+                                new_points.push([point.x, point.y]);
+                            });
+                            this.points = new_points;
+                        }
+                        this.bgImage = response.data.symbol.image;
+                        this.symbol_id = response.data.symbol.id;
+                        this.imgPosition.x = response.data.symbol.position_x;
+                        this.imgPosition.y = response.data.symbol.position_x;
+                        this.imgPosition.scale = response.data.symbol.scale;
+                        this.imgPosition.rotate = response.data.symbol.rotate;
+                        this.showPreview = false;
+                    }
+                    this.loading = false;
+                })
+                .catch( (error) => {
+                    console.log(error);
+                    this.loading = false;
+                });
             },
 
             async setPreviewImage() {
