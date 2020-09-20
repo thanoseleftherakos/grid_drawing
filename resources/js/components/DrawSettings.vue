@@ -29,6 +29,7 @@
         <div class="draw-settings__actions">
             <div class="draw-settings__actions__inner">
                 <button class="btn btn--green" @click.prevent="saveSymbol">{{ symbol_id ? 'UPDATE' : 'SAVE' }}</button>
+                <button class="btn btn--blue" @click.prevent="$emit('newsymbol')" v-if="symbol_id">NΕW</button>
                 <button class="btn btn--red" @click="confirmReset">CLEAR</button>
             </div>
         </div>

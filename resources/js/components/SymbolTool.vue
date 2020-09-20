@@ -10,6 +10,7 @@
             @imagePositionChanged="setImagePosition"
             @resetPoints="resetPoints"
             @savePressed="saveSymbol"
+            @newsymbol="newSymbol"
         ></draw-settings>
         <div class="grid-c">
             <div class="grid-c__container">
@@ -133,12 +134,17 @@
             resetPoints() {
                 this.points = [];
             },
+            newSymbol() {
+                this.resetPoints();
+                this.imgPosition = { x: 0, y: 0, scale: 1, rotate: 0 };
+                this.symbol_id = null;
+                this.bgImage = null;
+            },
 
             setBackgroundImage(image) {
                 this.bgImage = image;
             },
             setImagePosition(position) {
-                console.log(position)
                 this.imgPosition = position;
             }
         }
