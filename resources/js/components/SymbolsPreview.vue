@@ -3,7 +3,7 @@
         <a href="#" class="symbols_preview__close" @click.prevent="$emit('closepreview')"><i class="fas fa-times-circle"></i></a>
         <div class="symbols_preview__inner">
             <a href="#" class="symbols_preview__item" @click.prevent="setActiveItem(symbol.id)" v-for="( symbol, key ) in symbols" v-bind:key="'symbols_preview'+key">
-                <img :src="symbol.preview" alt="">
+                <img :src="'/storage/'+symbol.preview" alt="">
             </a>
         </div>
     </div>
@@ -71,7 +71,7 @@ export default {
             right: 15px;
             top: 15px;
             font-size: 2em;
-            color: #fff;
+            color: #f1f1f1;
             transition: color 0.2s ease;
             &:hover {
                 color: #00C6B5;

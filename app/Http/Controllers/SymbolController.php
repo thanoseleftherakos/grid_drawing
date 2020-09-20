@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Symbol;
 use App\Models\SymbolPoint;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+
 
 class SymbolController extends Controller
 {
@@ -31,6 +33,27 @@ class SymbolController extends Controller
     public function create()
     {
         //
+    }
+
+    public function average()
+    {
+        
+        $symbols = Symbol::withCount('points')
+        ->get();
+        $sum = 0;
+        foreach ($symbols as $key => $symbol) {
+            $sum += $symbol->points_count;
+        }
+        $avg_points = round($sum / count($symbols));
+
+        $points = DB::table('symbol_points')
+        ->select('x', DB::raw('count(*) as total'))
+        ->groupBy('x')
+        ->get();
+
+        $points =  DB::table('symbol_points')->select(DB::raw('COUNT(*), x , y GROUP BY x,y;'))->get();
+        return $points;
+        return $avg_points;
     }
 
     /**

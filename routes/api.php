@@ -20,3 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::resource('symbols', SymbolController::class);
+Route::get('symbols-average', [SymbolController::class, 'average']);
+

@@ -190,7 +190,7 @@
                             });
                             this.points = new_points;
                         }
-                        this.bgImage = response.data.symbol.image;
+                        this.bgImage = '/storage/'+response.data.symbol.image;
                         this.symbol_id = response.data.symbol.id;
                         this.imgPosition.x = response.data.symbol.position_x;
                         this.imgPosition.y = response.data.symbol.position_x;
