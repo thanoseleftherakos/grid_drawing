@@ -59,6 +59,15 @@ class SymbolController extends Controller
             $symbol->rotate = $data->img_position->rotate;
             $symbol->image = $path;
         }
+        if( isset($data->preview_image) ){
+            $img_data = substr($data->preview_image, strpos($data->preview_image, ',') + 1);
+            $img_data = base64_decode($img_data);
+            $filename = time().rand(100,999).".png";
+            $saved = Storage::disk('local')->put($filename, $img_data);
+            if($saved) {
+                $symbol->preview = $filename;
+            }
+        }
         if($data->symbol_id) {
             $symbol->update();
         } else {

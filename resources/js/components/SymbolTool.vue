@@ -6,6 +6,7 @@
             :resolution="grid_size[0]"
             :totalPoints="points.length"
             :symbol_id="symbol_id"
+            :loading="loading"
             @imageChanged="setBackgroundImage"
             @imagePositionChanged="setImagePosition"
             @resetPoints="resetPoints"
@@ -14,7 +15,7 @@
         ></draw-settings>
         <div class="grid-c">
             <div class="grid-c__container">
-                <div class="grid-c__box">
+                <div class="grid-c__box" ref="gridBox">
                     <div class="grid-c__box__bgimage" v-if="bgImageUrl">
                         <img 
                             :src="bgImageUrl"
@@ -38,6 +39,7 @@
 </template>
 
 <script>
+    let html2canvas = require('html2canvas');
     export default {
         data() {
             return {
@@ -56,7 +58,9 @@
                     y: 0,
                     scale: 1,
                     rotate: 0
-                }
+                },
+                previewImage: null,
+                loading: false,
             }
         },
         mounted() {
@@ -72,15 +76,18 @@
         },
         methods: {
 
-            saveSymbol() {
+            async saveSymbol() {
+                this.loading = true;
                 const data = new FormData();
                 if(this.bgImage) {
                     data.append('image', this.bgImage);
                 }
+                await this.setPreviewImage();
                 const json = JSON.stringify({
                     symbol_id: this.symbol_id,
                     points: this.points,
-                    img_position: this.imgPosition
+                    img_position: this.imgPosition,
+                    preview_image: this.previewImage
                 });
                 data.append('data', json);
 
@@ -92,12 +99,14 @@
                         this.toaster.show = true;
                         this.toaster.success = true;
                     }
+                    this.loading = false;
                 })
                 .catch( (error) => {
                     console.log(error);
                     this.toaster.message = error;
                     this.toaster.show = true;
                     this.toaster.success = false;
+                    this.loading = false;
                 });
             },
             
@@ -146,7 +155,17 @@
             },
             setImagePosition(position) {
                 this.imgPosition = position;
+            },
+
+            async setPreviewImage() {
+                const gridbox = this.$refs.gridBox;
+                await html2canvas(gridbox).then(canvas => {
+                    this.previewImage = canvas.toDataURL("image/png");
+                }).catch((error) => {
+                    console.log("Erorr descargando reporte visual", error)
+                });
             }
+            
         }
     }
 </script>

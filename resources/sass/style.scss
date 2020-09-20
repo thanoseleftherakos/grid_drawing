@@ -1,5 +1,6 @@
 @import "reset";
 @import "grid";
+@import "spinner";
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;800&display=swap');
 
 body {
@@ -12,6 +13,7 @@ body {
 }
 
 .btn {
+    position: relative;
     border: none;
     outline: none;
     background: #fff;
@@ -22,6 +24,10 @@ body {
     min-width: 120px;;
     cursor: pointer;
     transition: all 0.2s ease;
+    &:disabled {
+        opacity: 0.5!important;
+        cursor: progress;
+    }
     &:hover {
         opacity: 0.6;
     }

@@ -249,6 +249,48 @@ pre {
   background: #000;
 }
 
+.spinner {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+}
+
+.spinner:after {
+  content: " ";
+  display: block;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 3px solid #0b1015;
+  border-color: #0b1015 transparent #0b1015 transparent;
+  -webkit-animation: spinner-animation 1s linear infinite;
+          animation: spinner-animation 1s linear infinite;
+}
+
+@-webkit-keyframes spinner-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinner-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 body {
   width: 100%;
   font-family: "Poppins", sans-serif;
@@ -260,6 +302,7 @@ body {
 }
 
 .btn {
+  position: relative;
   border: none;
   outline: none;
   background: #fff;
@@ -270,6 +313,11 @@ body {
   min-width: 120px;
   cursor: pointer;
   transition: all 0.2s ease;
+}
+
+.btn:disabled {
+  opacity: 0.5 !important;
+  cursor: progress;
 }
 
 .btn:hover {

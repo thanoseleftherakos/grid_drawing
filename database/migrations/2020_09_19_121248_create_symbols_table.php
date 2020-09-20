@@ -17,6 +17,7 @@ class CreateSymbolsTable extends Migration
             $table->id();
             $table->string('title')->nullable();
             $table->string('image')->nullable();
+            $table->string('preview')->nullable();
             $table->integer('dpi')->nullable();
             $table->integer('position_x')->nullable();
             $table->integer('position_y')->nullable();

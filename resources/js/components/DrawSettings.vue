@@ -28,7 +28,10 @@
         </div>
         <div class="draw-settings__actions">
             <div class="draw-settings__actions__inner">
-                <button class="btn btn--green" @click.prevent="saveSymbol">{{ symbol_id ? 'UPDATE' : 'SAVE' }}</button>
+                <button class="btn btn--green" @click.prevent="saveSymbol" :disabled="loading">
+                    {{ symbol_id ? 'UPDATE' : 'SAVE' }}
+                    <div class="spinner" v-if="loading"></div>
+                </button>
                 <button class="btn btn--blue" @click.prevent="$emit('newsymbol')" v-if="symbol_id">NΕW</button>
                 <button class="btn btn--red" @click="confirmReset">CLEAR</button>
             </div>
@@ -38,7 +41,7 @@
 
 <script>
     export default {
-        props: ['drawMode', 'totalPoints', 'resolution', 'symbol_id'],
+        props: ['drawMode', 'totalPoints', 'resolution', 'symbol_id', 'loading'],
         data() {
             return {
                 image: null,
