@@ -14,12 +14,14 @@
             :totalPoints="points.length"
             :symbol_id="symbol_id"
             :loading="loading"
+            :existingImage="existingImage"
             @imageChanged="setBackgroundImage"
             @imagePositionChanged="setImagePosition"
             @resetPoints="resetPoints"
             @savePressed="saveSymbol"
             @newsymbol="newSymbol"
             @showpreview="openpreview"
+            @updateOpacity="updateOpacity"
         ></draw-settings>
         <div class="grid-c">
             <div class="grid-c__container">
@@ -27,7 +29,10 @@
                     <div class="grid-c__box__bgimage" v-if="bgImageUrl">
                         <img 
                             :src="bgImageUrl"
-                            :style="{ transform: `translate( ${imgPosition.x}px, ${imgPosition.y}px ) scale(${imgPosition.scale}) rotate(${imgPosition.rotate}deg)` }"
+                            :style="{ 
+                                transform: `translate( ${imgPosition.x}px, ${imgPosition.y}px ) scale(${imgPosition.scale}) rotate(${imgPosition.rotate}deg)`,
+                                opacity: imgOpacity 
+                            }"
                         >
                     </div>
                     <div class="grid-c__box__row" v-for="(rows, rows_key) in grid_size[0]" v-bind:key="'row_'+rows_key">
@@ -67,6 +72,8 @@
                     scale: 1,
                     rotate: 0
                 },
+                existingImage: false,
+                imgOpacity: 1,
                 previewImage: null,
                 loading: false,
                 showPreview: false,
@@ -157,6 +164,7 @@
                 this.imgPosition = { x: 0, y: 0, scale: 1, rotate: 0 };
                 this.symbol_id = null;
                 this.bgImage = null;
+                this.existingImage = false;
             },
 
             setBackgroundImage(image) {
@@ -197,6 +205,7 @@
                         this.imgPosition.scale = response.data.symbol.scale;
                         this.imgPosition.rotate = response.data.symbol.rotate;
                         this.showPreview = false;
+                        this.existingImage = true;
                     }
                     this.loading = false;
                 })
@@ -204,6 +213,9 @@
                     console.log(error);
                     this.loading = false;
                 });
+            },
+            updateOpacity(value) {
+                this.imgOpacity = value;
             },
 
             async setPreviewImage() {

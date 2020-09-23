@@ -10,19 +10,22 @@
             <div class="draw-settings__row">
                 <h4>Image</h4>
                 <h5>Upload Image: <input @change="onFileChange" type="file" name="image" id="" accept="image/png, image/jpeg"></h5>
-                <h5 v-if="image">Position: 
+                <h5 v-if="image || existingImage">Position: 
                     <button class="btn--small" @click.prevent="imgPosition.y -= 2"><i class="fas fa-arrow-up"></i></button> 
                     <button class="btn--small" @click.prevent="imgPosition.y +=2"><i class="fas fa-arrow-down"></i></button> 
                     <button class="btn--small" @click.prevent="imgPosition.x -= 2"><i class="fas fa-arrow-left"></i></button> 
                     <button class="btn--small" @click.prevent="imgPosition.x +=2"><i class="fas fa-arrow-right"></i></button> 
                 </h5>
-                <h5 v-if="image">Scale: 
+                <h5 v-if="image || existingImage">Scale: 
                     <button class="btn--small" @click.prevent="imgPosition.scale += 0.05"><i class="fas fa-plus"></i></button> 
                     <button class="btn--small" @click.prevent="imgPosition.scale -= 0.05"><i class="fas fa-minus"></i></button>
                 </h5> 
-                <h5 v-if="image">Rotate: 
+                <h5 v-if="image || existingImage">Rotate: 
                     <button class="btn--small" @click.prevent="imgPosition.rotate += 1"><i style="transform: scaleX(-1);" class="fas fa-undo"></i></button>
                     <button class="btn--small" @click.prevent="imgPosition.rotate -= 1"><i class="fas fa-undo"></i></button> 
+                </h5> 
+                <h5 v-if="image || existingImage">Opacity: 
+                <vue-slider v-model="imageOpacity" :min="0" :max="1" :interval="0.01" @change="updateOpacity"/>
                 </h5> 
             </div>
             <div class="draw-settings__row">
@@ -44,8 +47,13 @@
 </template>
 
 <script>
+    import VueSlider from 'vue-slider-component'
+    import 'vue-slider-component/theme/antd.css'
     export default {
-        props: ['drawMode', 'totalPoints', 'resolution', 'symbol_id', 'loading'],
+        props: ['drawMode', 'totalPoints', 'resolution', 'symbol_id', 'loading', 'existingImage'],
+        components: {
+            VueSlider
+        },
         data() {
             return {
                 image: null,
@@ -53,8 +61,9 @@
                     x: 0,
                     y: 0,
                     scale: 1,
-                    rotate: 0
-                }
+                    rotate: 0,
+                },
+                imageOpacity: 1.0
             }
         },
         mounted() {
@@ -100,6 +109,9 @@
                 if (confirm("Are you sure!? Any unsaved changes will be lost 😳")) {
                     this.$emit('newsymbol')
                 }
+            },
+            updateOpacity(value) {
+                this.$emit('updateOpacity', value)
             }
         }
     }

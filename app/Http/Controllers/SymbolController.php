@@ -74,16 +74,15 @@ class SymbolController extends Controller
         } else {
             $symbol = new Symbol;
         }
+        $symbol->position_x = $data->img_position->x;
+        $symbol->position_y = $data->img_position->y;
+        $symbol->scale = $data->img_position->scale;
+        $symbol->rotate = $data->img_position->rotate;
         if($request->has('image')) {
             $img_contents = file_get_contents($request->image->path());
             $original_name = strtolower(str_replace(' ', '', $request->image->getClientOriginalName()));
             $file_name = time().rand(100,999).$original_name;
             $path = Storage::disk('public')->putFile('/scans', $request->image, 'public');
-            
-            $symbol->position_x = $data->img_position->x;
-            $symbol->position_y = $data->img_position->y;
-            $symbol->scale = $data->img_position->scale;
-            $symbol->rotate = $data->img_position->rotate;
             $symbol->image = $path;
         }
         if( isset($data->preview_image) ){
