@@ -3,9 +3,13 @@
         <div class="draw-settings__inner">
             <h3>Settings</h3>
             <div class="draw-settings__row">
+                <h4>Grid</h4>
                 <h5>Drawing mode: <span :class="{ active : drawMode, inactive : !drawMode }">{{ drawMode ? 'ON' : 'OFF' }}</span></h5>
                 <h5>Resolution: <span>{{ resolution }} dpi</span></h5>
                 <h5>Total points: <span>{{ totalPoints }}</span></h5>
+                <h5>Opacity: 
+                <vue-slider v-model="gridOpacity" :min="0" :max="1" :interval="0.01" @change="updateGridOpacity"/>
+                </h5>
             </div>
             <div class="draw-settings__row">
                 <h4>Image</h4>
@@ -63,7 +67,8 @@
                     scale: 1,
                     rotate: 0,
                 },
-                imageOpacity: 1.0
+                imageOpacity: 1.0,
+                gridOpacity: 1.0
             }
         },
         mounted() {
@@ -112,6 +117,9 @@
             },
             updateOpacity(value) {
                 this.$emit('updateOpacity', value)
+            },
+            updateGridOpacity(value) {
+                this.$emit('updateGridOpacity', value)
             }
         }
     }

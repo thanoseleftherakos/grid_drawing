@@ -11,7 +11,7 @@
         <draw-settings 
             :drawMode.sync="drawMode" 
             :resolution="grid_size[0]"
-            :totalPoints="points.length"
+            :totalPoints="Object.keys(points).length"
             :symbol_id="symbol_id"
             :loading="loading"
             :existingImage="existingImage"
@@ -22,6 +22,7 @@
             @newsymbol="newSymbol"
             @showpreview="openpreview"
             @updateOpacity="updateOpacity"
+            @updateGridOpacity="updateGridOpacity"
         ></draw-settings>
         <div class="grid-c">
             <div class="grid-c__container">
@@ -35,7 +36,11 @@
                             }"
                         >
                     </div>
-                    <div class="grid-c__box__row" v-for="(rows, rows_key) in grid_size[0]" v-bind:key="'row_'+rows_key">
+                    <div class="grid-c__box__row" 
+                        v-for="(rows, rows_key) in grid_size[0]" 
+                        v-bind:key="'row_'+rows_key"
+                        :style="{ opacity: gridOpacity }"
+                        >
                         <div 
                             class="grid-c__box__item"
                             v-for="(cols, cols_key) in grid_size[1]"
@@ -56,8 +61,8 @@
     export default {
         data() {
             return {
-                grid_size: [64,64],
-                points: [],
+                grid_size: [82,82],
+                points: {},
                 drawMode: false,
                 bgImage: null,
                 symbol_id: null,
@@ -74,6 +79,7 @@
                 },
                 existingImage: false,
                 imgOpacity: 1,
+                gridOpacity: 1.0,
                 previewImage: null,
                 loading: false,
                 showPreview: false,
@@ -88,7 +94,7 @@
                     return URL.createObjectURL(this.bgImage);
                 }
                 return this.bgImage;
-            }
+            },
         },
         methods: {
 
@@ -99,9 +105,13 @@
                     data.append('image', this.bgImage);
                 }
                 await this.setPreviewImage();
+                let _points = [];
+                Object.keys(this.points).forEach((point) => {
+                    _points.push(this.points[point]);
+                });
                 const json = JSON.stringify({
                     symbol_id: this.symbol_id,
-                    points: this.points,
+                    points: _points,
                     img_position: this.imgPosition,
                     preview_image: this.previewImage
                 });
@@ -128,11 +138,13 @@
             
             checkUncheck(point) {
                 if(!this.isChecked(point)) {
-                    this.points.push(point);
+                    // this.points.push(point);
+                    this.$set(this.points, point, point)
                 }
                 else {
                     if(!this.drawMode) {
-                        this.points.splice(this.getPointsArrayIndex(point), 1);
+                        this.$delete(this.points, point)
+                        // this.points.splice(this.getPointsArrayIndex(point), 1);
                     }
                 }
             },
@@ -142,10 +154,11 @@
             },
 
             isChecked(point) {
-                return this.points.some(
-                    r => r.length == point.length &&
-                        r.every((value, index) => point[index] == value)
-                );
+                return this.points.hasOwnProperty(point);
+                // return this.points.some(
+                //     r => r.length == point.length &&
+                //         r.every((value, index) => point[index] == value)
+                // );
             },
 
             initDrawMode() {
@@ -190,22 +203,21 @@
                 axios.get(`/api/symbols/${id}`)
                 .then((response) => {
                     if(response.data.success) {
-                        this.points = response.data.symbol.points;
                         if(response.data.symbol.points.length) {
-                            const new_points = [];
+                            this.points = {};
                             response.data.symbol.points.forEach((point, index) => {
-                                new_points.push([point.x, point.y]);
+                                this.$set(this.points, [point.x, point.y], [point.x, point.y])
                             });
-                            this.points = new_points;
                         }
                         this.bgImage = '/storage/'+response.data.symbol.image;
                         this.symbol_id = response.data.symbol.id;
                         this.imgPosition.x = response.data.symbol.position_x;
-                        this.imgPosition.y = response.data.symbol.position_x;
+                        this.imgPosition.y = response.data.symbol.position_y;
                         this.imgPosition.scale = response.data.symbol.scale;
                         this.imgPosition.rotate = response.data.symbol.rotate;
                         this.showPreview = false;
                         this.existingImage = true;
+                        console.log(this.imgPosition)
                     }
                     this.loading = false;
                 })
@@ -216,6 +228,9 @@
             },
             updateOpacity(value) {
                 this.imgOpacity = value;
+            },
+            updateGridOpacity(value) {
+                this.gridOpacity = value;
             },
 
             async setPreviewImage() {
