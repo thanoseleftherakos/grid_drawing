@@ -28,6 +28,7 @@
             :existingImage="existingImage"
             :symbol_categories="symbol_categories"
             :symbol_category_id.sync="symbol_category_id"
+            :showHelpers.sync='showHelpers'
             @imageChanged="setBackgroundImage"
             @imagePositionChanged="setImagePosition"
             @resetPoints="resetPoints"
@@ -54,6 +55,7 @@
                         v-for="(rows, rows_key) in grid_size[0]" 
                         v-bind:key="'row_'+rows_key"
                         :style="{ opacity: gridOpacity }"
+                        :class="{ 'helper' : isHelper(rows_key) }"
                         >
                         <div 
                             class="grid-c__box__item"
@@ -83,6 +85,7 @@
                 symbol_id: null,
                 symbol_category_id: null,
                 showAverage: false,
+                showHelpers: false,
                 toaster: {
                     show: false,
                     message: '',
@@ -112,6 +115,13 @@
                 }
                 return this.bgImage;
             },
+        },
+        watch: {
+            symbol_category_id: {
+                handler(val) {
+                    this.grid_size = this.grid_size;
+                } 
+            }
         },
         methods: {
 
@@ -177,6 +187,15 @@
                 //     r => r.length == point.length &&
                 //         r.every((value, index) => point[index] == value)
                 // );
+            },
+
+            isHelper(row) {
+                if(this.showHelpers) {
+                    if(row == 27 || row == 54) {
+                        return true
+                    }
+                }
+                return false;
             },
 
             initDrawMode() {

@@ -96,6 +96,11 @@
             },
             symbol_category_id: {
                 handler(val){
+                    if(val == 2) {
+                        this.$emit('update:showHelpers', true)
+                    } else {
+                        this.$emit('update:showHelpers', false)
+                    }
                     this.$emit('update:symbol_category_id', val)
                 }
             }
