@@ -13,4 +13,8 @@ class Symbol extends Model
     {
         return $this->hasMany('App\Models\SymbolPoint');
     }
+    public function category()
+    {
+        return $this->hasMany('App\Models\SymbolCategory');
+    }
 }

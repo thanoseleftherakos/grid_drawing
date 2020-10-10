@@ -7,6 +7,7 @@ use App\Models\Symbol;
 use App\Models\SymbolPoint;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\SaveSymbolFormRequest;
 
 
 class SymbolController extends Controller
@@ -62,12 +63,15 @@ class SymbolController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'image' => 'mimetypes:image/jpeg,image/bmp,image/png',
-            // 'data.points' => 'required',
-        ]);
+    public function store(SaveSymbolFormRequest $request)
+    {   
+        // $validatedData = $request->validate([
+        //     'image' => 'mimetypes:image/jpeg,image/bmp,image/png',
+        //     'symbol_category_id' => 'required'
+        //     // 'data.points' => 'required',
+        // ],[],[
+        //     'symbol_category_id' => 'Symbol Category'
+        // ]);
         $data = json_decode($request['data']);
         if($data->symbol_id) {
             $symbol = Symbol::findOrFail($data->symbol_id);
@@ -78,6 +82,7 @@ class SymbolController extends Controller
         $symbol->position_y = $data->img_position->y;
         $symbol->scale = $data->img_position->scale;
         $symbol->rotate = $data->img_position->rotate;
+        $symbol->symbol_category_id = $data->symbol_category_id;
         if($request->has('image')) {
             $img_contents = file_get_contents($request->image->path());
             $original_name = strtolower(str_replace(' ', '', $request->image->getClientOriginalName()));

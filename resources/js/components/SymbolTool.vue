@@ -1,6 +1,8 @@
 <template>
     <div class="symbol-create">
+        <transition name="fade">
         <loader v-if="loading"></loader>
+        </transition>
         <transition name="fade">
             <average
                 v-if="showAverage"
@@ -24,6 +26,8 @@
             :symbol_id="symbol_id"
             :loading="loading"
             :existingImage="existingImage"
+            :symbol_categories="symbol_categories"
+            :symbol_category_id.sync="symbol_category_id"
             @imageChanged="setBackgroundImage"
             @imagePositionChanged="setImagePosition"
             @resetPoints="resetPoints"
@@ -69,6 +73,7 @@
 <script>
     let html2canvas = require('html2canvas');
     export default {
+        props: ['symbol_categories'],
         data() {
             return {
                 grid_size: [82,82],
@@ -76,6 +81,7 @@
                 drawMode: false,
                 bgImage: null,
                 symbol_id: null,
+                symbol_category_id: null,
                 showAverage: false,
                 toaster: {
                     show: false,
@@ -115,13 +121,14 @@
                 if(this.bgImage && this.bgImage instanceof File) {
                     data.append('image', this.bgImage);
                 }
-                await this.setPreviewImage();
+                // await this.setPreviewImage();
                 let _points = [];
                 Object.keys(this.points).forEach((point) => {
                     _points.push(this.points[point]);
                 });
                 const json = JSON.stringify({
                     symbol_id: this.symbol_id,
+                    symbol_category_id: this.symbol_category_id,
                     points: _points,
                     img_position: this.imgPosition,
                     preview_image: this.previewImage
@@ -140,7 +147,7 @@
                 })
                 .catch( (error) => {
                     console.log(error);
-                    this.toaster.message = error;
+                    this.toaster.message = error.response.data.errors;
                     this.toaster.show = true;
                     this.toaster.success = false;
                     this.loading = false;

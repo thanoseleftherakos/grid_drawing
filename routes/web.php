@@ -13,29 +13,17 @@ use App\Models\Symbol;
 |
 */
 Route::get('/', function () {
-    return view('createsymbol');
+    $symbol_categories = \App\Models\SymbolCategory::select('id','name')->get();
+    return view('createsymbol')->with('symbol_categories',$symbol_categories);
 });
-Route::get('/fillpoints', function () {
-    $symbol_points = \App\Models\SymbolPoint::all();
-    foreach ($symbol_points as $key => $symbol_point) {
-        $symbol_point = \App\Models\SymbolPoint::find($symbol_point->id);
-        $symbol_point->point = $symbol_point->x.' '.$symbol_point->y;
-        $symbol_point->update();
-    }
-});
-Route::get('/test', function () {
-    $symbols = Symbol::withCount('points')->get();
-    $sum = 0;
+
+Route::get('/addcat', function () { 
+    $symbols = \App\Models\Symbol::all();
     foreach ($symbols as $key => $symbol) {
-        $sum += $symbol->points_count;
+        $symbol = \App\Models\Symbol::find($symbol->id);
+        $symbol->symbol_category_id = 1;
+        $symbol->update();
     }
-    $avg_points = round($sum / count($symbols));
-    
-    $groups = \App\Models\SymbolPoint::orderBy('count', 'desc')
-    ->select(DB::raw('point,count(*) as count'))
-    ->groupBy('point')
-    ->take($avg_points)
-    ->get();
-        
-    return $groups;
+    return 'ok';
 });
+

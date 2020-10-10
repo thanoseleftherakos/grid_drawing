@@ -10,6 +10,15 @@
                 <h5>Opacity: 
                 <vue-slider v-model="gridOpacity" :min="0" :max="1" :interval="0.01" @change="updateGridOpacity"/>
                 </h5>
+                <h5 v-if="symbol_categories.length">Category:
+                    <v-select 
+                    label="name"
+                    v-model="symbol_category_id"
+                    :options="symbol_categories"
+                    :reduce="name => name.id"
+                    >
+                    </v-select>
+                </h5>
             </div>
             <div class="draw-settings__row">
                 <h4>Image</h4>
@@ -54,14 +63,17 @@
 <script>
     import VueSlider from 'vue-slider-component'
     import 'vue-slider-component/theme/antd.css'
+    import vSelect from 'vue-select';
+    import 'vue-select/dist/vue-select.css';
     export default {
-        props: ['drawMode', 'totalPoints', 'resolution', 'symbol_id', 'loading', 'existingImage'],
+        props: ['drawMode', 'totalPoints', 'resolution', 'symbol_id', 'loading', 'existingImage', 'symbol_categories','symbol_category_id'],
         components: {
-            VueSlider
+            VueSlider, vSelect
         },
         data() {
             return {
                 image: null,
+
                 imgPosition: {
                     x: 0,
                     y: 0,
@@ -81,6 +93,11 @@
                     this.$emit('imagePositionChanged', val)
                 },
                 deep: true
+            },
+            symbol_category_id: {
+                handler(val){
+                    this.$emit('update:symbol_category_id', val)
+                }
             }
         },
         methods: {
@@ -197,5 +214,14 @@
                 justify-content: space-between;
             }
         }
+    }
+    .v-select {
+        margin-top: 10px;
+    }
+    .vs__dropdown-toggle {
+        border-color: #fff;
+    }
+    .vs__open-indicator, .vs__clear  {
+        fill: #fff;
     }
 </style>

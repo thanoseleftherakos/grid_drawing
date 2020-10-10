@@ -8,7 +8,7 @@
     </head>
     <body>
         <div id="app">
-            <symbol-tool></symbol-tool>
+        <symbol-tool :symbol_categories="{{ $symbol_categories->toJson() }}"></symbol-tool>
         </div>
     </body>
     <script src="https://kit.fontawesome.com/c6adaa43ec.js" crossorigin="anonymous"></script>
