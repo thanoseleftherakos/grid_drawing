@@ -1,6 +1,13 @@
 <template>
     <div class="symbol-create">
         <transition name="fade">
+            <average
+                v-if="showAverage"
+                :showAverage.sync="showAverage"
+                :grid_size="grid_size"
+            ></average>
+        </transition>
+        <transition name="fade">
         <symbols-preview 
             @setActiveItem="setActivesymbol"
             @closepreview="closepreview" 
@@ -21,6 +28,7 @@
             @savePressed="saveSymbol"
             @newsymbol="newSymbol"
             @showpreview="openpreview"
+            @showaverage="openaverage"
             @updateOpacity="updateOpacity"
             @updateGridOpacity="updateGridOpacity"
         ></draw-settings>
@@ -66,6 +74,7 @@
                 drawMode: false,
                 bgImage: null,
                 symbol_id: null,
+                showAverage: false,
                 toaster: {
                     show: false,
                     message: '',
@@ -198,6 +207,9 @@
             openpreview() {
                 this.showPreview = true;
             },
+            openaverage() {
+                this.showAverage = true;
+            },
             setActivesymbol(id) {
                 this.loading = true;
                 axios.get(`/api/symbols/${id}`)
@@ -238,7 +250,7 @@
                 await html2canvas(gridbox).then(canvas => {
                     this.previewImage = canvas.toDataURL("image/png");
                 }).catch((error) => {
-                    console.log("Erorr descargando reporte visual", error)
+                    console.log("Error rendering canvas to image", error)
                 });
             }
             

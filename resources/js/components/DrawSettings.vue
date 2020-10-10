@@ -35,6 +35,7 @@
             <div class="draw-settings__row">
                 <h4>Symbols</h4>
                 <h5><a href="#" @click.prevent="$emit('showpreview')">View all created symbols <i class="fas fa-arrow-right"></i></a></h5>
+                <h5><a href="#" @click.prevent="$emit('showaverage')">Show Average <i class="fas fa-arrow-right"></i></a></h5>
             </div>
         </div>
         <div class="draw-settings__actions">

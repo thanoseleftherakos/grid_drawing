@@ -1,4 +1,355 @@
 @import url(https://fonts.googleapis.com/css2?family=Poppins:wght@400;
 
-700;800&display=swap);abbr,address,article,aside,audio,b,blockquote,body,body div,caption,cite,code,dd,del,details,dfn,dl,dt,em,fieldset,figure,footer,form,h1,h2,h3,h4,h5,h6,header,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,p,pre,q,samp,section,small,span,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,ul,var,video{margin:0;padding:0;border:0;font-size:100%;font-weight:400;vertical-align:baseline;background:transparent}article,aside,details,figure,footer,header,nav,section,summary{display:block}html{box-sizing:border-box}*,:after,:before{box-sizing:inherit}embed,img,object{max-width:100%}ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:"";content:none}a{margin:0;padding:0;font-size:100%;vertical-align:baseline;background:transparent}del{text-decoration:line-through}abbr[title],dfn[title]{border-bottom:1px dotted #000;cursor:help}table{border-collapse:separate;border-spacing:0}th{font-weight:700;vertical-align:bottom}td{font-weight:400;vertical-align:top}hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}input,select{vertical-align:middle}pre{white-space:pre;white-space:pre-wrap;white-space:pre-line;word-wrap:break-word}.grid-c{padding:0 30px}.grid-c__box{position:relative;background-size:cover;background-position:50%;display:inline-block}.grid-c__box__bgimage{position:absolute;overflow:hidden;top:0;left:0;width:100%;height:100%}.grid-c__box__bgimage img{width:100%;height:100%;-o-object-fit:contain;object-fit:contain}.grid-c__box__row{display:flex;flex-wrap:wrap}.grid-c__box__item{display:inline-block;position:relative;width:9px;height:9px;outline:1px solid rgba(0,0,0,.4)}.grid-c__box__item.active{background:#000}.grid-c__box__item.center{outline:2px solid #f03636}.spinner{position:absolute;right:5px;top:50%;transform:translateY(-50%);display:inline-block;width:25px;height:25px}.spinner:after{content:" ";display:block;width:25px;height:25px;border-radius:50%;border-color:#0b1015 transparent;border-style:solid;border-width:3px;-webkit-animation:spinner-animation 1s linear infinite;animation:spinner-animation 1s linear infinite}@-webkit-keyframes spinner-animation{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}@keyframes spinner-animation{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}body{width:100%;font-family:Poppins,sans-serif;font-size:16px}*{box-sizing:border-box}.btn{position:relative;border:none;outline:none;background:#fff;padding:10px 15px;border-radius:2px;letter-spacing:2px;font-weight:800;min-width:120px;cursor:pointer;transition:all .2s ease}.btn:disabled{opacity:.5!important;cursor:progress}.btn:hover{opacity:.6}.btn--green{color:#0b1015;background:#53f144}.btn--red{color:#fff;background:#f03636}.btn--blue{color:#fff;background:#3399ec}.fade-enter-active,.fade-leave-active{transition:opacity .5s}.fade-enter,.fade-leave-to{opacity:0}
-/*# sourceMappingURL=style.css.map*/
+700;800&display=swap);/*
+	HTML5 Reset :: style.css
+-------------------------------------------------------------------------------*/
+html,
+body,
+body div,
+span,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+abbr,
+address,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+samp,
+small,
+strong,
+sub,
+sup,
+var,
+b,
+i,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+figure,
+footer,
+header,
+menu,
+nav,
+section,
+time,
+mark,
+audio,
+video,
+details,
+summary {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font-weight: normal;
+  vertical-align: baseline;
+  background: transparent;
+}
+
+article,
+aside,
+figure,
+footer,
+header,
+nav,
+section,
+details,
+summary {
+  display: block;
+}
+
+/* Handle box-sizing while better addressing child elements:
+   http://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/ */
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+/* consider resetting the default cursor: https://gist.github.com/murtaugh/5247154 */
+
+/* Responsive images and other embedded objects */
+
+/* if you don't have full control over `img` tags (if you have to overcome attributes), consider adding height: auto */
+
+img,
+object,
+embed {
+  max-width: 100%;
+}
+
+/*
+   Note: keeping IMG here will cause problems if you're using foreground images as sprites.
+	In fact, it *will* cause problems with Google Maps' controls at small size.
+	If this is the case for you, try uncommenting the following:
+#map img {
+		max-width: none;
+}
+*/
+
+/* we use a lot of ULs that aren't bulleted.
+	you'll have to restore the bullets within content,
+	which is fine because they're probably customized anyway */
+
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+
+a {
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+}
+
+del {
+  text-decoration: line-through;
+}
+
+abbr[title],
+dfn[title] {
+  border-bottom: 1px dotted #000;
+  cursor: help;
+}
+
+/* tables still need cellspacing="0" in the markup */
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+th {
+  font-weight: bold;
+  vertical-align: bottom;
+}
+
+td {
+  font-weight: normal;
+  vertical-align: top;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+
+input,
+select {
+  vertical-align: middle;
+}
+
+pre {
+  white-space: pre;
+  /* CSS2 */
+  white-space: pre-wrap;
+  /* CSS 2.1 */
+  white-space: pre-line;
+  /* CSS 3 (and 2.1 as well, actually) */
+  word-wrap: break-word;
+  /* IE */
+}
+
+.grid-c {
+  padding: 0 30px;
+}
+
+.grid-c__box {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  display: inline-block;
+}
+
+.grid-c__box__bgimage {
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.grid-c__box__bgimage img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.grid-c__box__row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.grid-c__box__item {
+  display: inline-block;
+  position: relative;
+  width: 9px;
+  height: 9px;
+  outline: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.grid-c__box__item.active {
+  background: #000;
+}
+
+.grid-c__box__item.center {
+  outline: 2px solid #f03636;
+}
+
+.spinner {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+}
+
+.spinner:after {
+  content: " ";
+  display: block;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 3px solid #0b1015;
+  border-color: #0b1015 transparent #0b1015 transparent;
+  -webkit-animation: spinner-animation 1s linear infinite;
+          animation: spinner-animation 1s linear infinite;
+}
+
+@-webkit-keyframes spinner-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinner-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+body {
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.btn {
+  position: relative;
+  border: none;
+  outline: none;
+  background: #fff;
+  padding: 10px 15px;
+  border-radius: 2px;
+  letter-spacing: 2px;
+  font-weight: 800;
+  min-width: 120px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn:disabled {
+  opacity: 0.5 !important;
+  cursor: progress;
+}
+
+.btn:hover {
+  opacity: 0.6;
+}
+
+.btn--green {
+  color: #0b1015;
+  background: #53f144;
+}
+
+.btn--red {
+  color: #fff;
+  background: #f03636;
+}
+
+.btn--blue {
+  color: #fff;
+  background: #3399ec;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+

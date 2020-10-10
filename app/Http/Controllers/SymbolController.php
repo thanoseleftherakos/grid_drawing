@@ -38,22 +38,22 @@ class SymbolController extends Controller
     public function average()
     {
         
-        $symbols = Symbol::withCount('points')
-        ->get();
+        $symbols = Symbol::withCount('points')->get();
         $sum = 0;
         foreach ($symbols as $key => $symbol) {
             $sum += $symbol->points_count;
         }
         $avg_points = round($sum / count($symbols));
-
-        $points = DB::table('symbol_points')
-        ->select('x', DB::raw('count(*) as total'))
-        ->groupBy('x')
+        
+        $points = \App\Models\SymbolPoint::orderBy('count', 'desc')
+        ->select(DB::raw('point,count(*) as count'))
+        ->groupBy('point')
+        ->take($avg_points)
         ->get();
-
-        $points =  DB::table('symbol_points')->select(DB::raw('COUNT(*), x , y GROUP BY x,y;'))->get();
-        return $points;
-        return $avg_points;
+        return response()->json([
+            'success' => true,
+            'points' => $points
+        ], 200);
     }
 
     /**
@@ -109,6 +109,7 @@ class SymbolController extends Controller
                 $symbol_point = new SymbolPoint;
                 $symbol_point->x = $point[0];
                 $symbol_point->y = $point[1];
+                $symbol_point->point = $point[0] . ' ' . $point[1];
                 $symbol_point->symbol_id = $symbol->id;
                 $symbol_point->save();
             }
