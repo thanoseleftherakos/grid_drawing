@@ -37,6 +37,8 @@ $height: 9px;
             height: $height;
             // border-right: 1px solid $borderColor;
             outline: 1px solid $borderColor;
+            transition: background 0.5s ease;
+            // transition-delay: 0.1s;
             &.active {
                 background: #000;
             }

@@ -243,6 +243,7 @@ pre {
   width: 9px;
   height: 9px;
   outline: 1px solid rgba(0, 0, 0, 0.4);
+  transition: background 0.5s ease;
 }
 
 .grid-c__box__item.active {

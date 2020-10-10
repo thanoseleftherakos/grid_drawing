@@ -7,6 +7,7 @@
                     <div class="grid-c__box" ref="gridBox">
                         <div class="grid-c__box__row" 
                             v-for="(rows, rows_key) in grid_size[0]" 
+                            stagger="50"
                             v-bind:key="'row_'+rows_key"
                             >
                             <div 
@@ -14,6 +15,7 @@
                                 v-for="(cols, cols_key) in grid_size[1]"
                                 v-bind:key="'col_'+cols_key"
                                 :class="{ 'active' : isChecked(rows_key + 1, cols_key + 1)}"
+                                :style="{ transitionDelay: Math.floor(Math.random() * 15000) + 'ms' }"
                             ></div>
                         </div>
                     </div>
@@ -24,7 +26,7 @@
 </template>
 <script>
 export default {
-    props: ['grid_size', 'showAverage'],
+    props: ['grid_size', 'showAverage', 'loading'],
     data() {
         return {
             points: []
@@ -35,12 +37,14 @@ export default {
     },
     methods: {
         fetchPoints() {
+            this.$emit('update:loading', true);
             axios.get('/api/symbols-average')
                 .then((response) => {
                     this.points = response.data.points;
-                    console.log(this.points)
+                    this.$emit('update:loading', false);
                 })
                 .catch( (error) => {
+                    this.$emit('update:loading', false);
                 });
         },
 
@@ -82,6 +86,5 @@ export default {
             color: #00C6B5;
         }
     }
-
 }
 </style>

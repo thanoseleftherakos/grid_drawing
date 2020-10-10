@@ -1,10 +1,12 @@
 <template>
     <div class="symbol-create">
+        <loader v-if="loading"></loader>
         <transition name="fade">
             <average
                 v-if="showAverage"
                 :showAverage.sync="showAverage"
                 :grid_size="grid_size"
+                :loading.sync="loading"
             ></average>
         </transition>
         <transition name="fade">
