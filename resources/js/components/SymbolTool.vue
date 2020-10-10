@@ -121,7 +121,7 @@
                 if(this.bgImage && this.bgImage instanceof File) {
                     data.append('image', this.bgImage);
                 }
-                // await this.setPreviewImage();
+                await this.setPreviewImage();
                 let _points = [];
                 Object.keys(this.points).forEach((point) => {
                     _points.push(this.points[point]);
@@ -233,6 +233,7 @@
                         this.bgImage = '/storage/'+response.data.symbol.image;
                         this.symbol_id = response.data.symbol.id;
                         this.imgPosition.x = response.data.symbol.position_x;
+                        this.symbol_category_id = response.data.symbol.symbol_category_id;
                         this.imgPosition.y = response.data.symbol.position_y;
                         this.imgPosition.scale = response.data.symbol.scale;
                         this.imgPosition.rotate = response.data.symbol.rotate;
