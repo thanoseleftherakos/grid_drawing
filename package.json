@@ -26,6 +26,7 @@
     "dependencies": {
         "html2canvas": "^1.0.0-rc.7",
         "vue": "^2.6.12",
+        "vue-color": "^2.8.1",
         "vue-select": "^3.10.8",
         "vue-slider-component": "^3.2.5"
     }

@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('createsymbol')->with('symbol_categories',$symbol_categories);
 });
 
+Route::get('/php', function () {
+    return phpinfo();
+});
+
 Route::get('/addcat', function () { 
     $symbols = \App\Models\Symbol::all();
     foreach ($symbols as $key => $symbol) {

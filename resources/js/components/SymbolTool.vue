@@ -31,6 +31,7 @@
             :showHelpers.sync='showHelpers'
             @imageChanged="setBackgroundImage"
             @imagePositionChanged="setImagePosition"
+            @colorsChanged="setColors"
             @resetPoints="resetPoints"
             @savePressed="saveSymbol"
             @newsymbol="newSymbol"
@@ -64,6 +65,7 @@
                             :class="{ 'active' : isChecked([rows_key + 1, cols_key + 1]), center : itemIsCenter(rows_key+1,cols_key+1) }"
                             @mouseover = "drawMode ? checkUncheck([rows_key + 1, cols_key + 1]) : ''"
                             @click = "checkUncheck([rows_key + 1, cols_key + 1])"
+                            :style="{background : getPixelcolor(rows_key + 1, cols_key + 1, isChecked([rows_key + 1, cols_key + 1]))}"
                         ></div>
                     </div>
                 </div>
@@ -80,6 +82,7 @@
             return {
                 grid_size: [82,82],
                 points: {},
+                pointsColors: [],
                 drawMode: false,
                 bgImage: null,
                 symbol_id: null,
@@ -165,6 +168,7 @@
             },
             
             checkUncheck(point) {
+                if(this.pointsColors.length) this.pointsColors = [];
                 if(!this.isChecked(point)) {
                     // this.points.push(point);
                     this.$set(this.points, point, point)
@@ -222,6 +226,45 @@
             },
             setImagePosition(position) {
                 this.imgPosition = position;
+            },
+            setColors(colors) {
+                this.pointsColors = [];
+                const total_points = Object.keys(this.points).length;
+                let total_percent = 0;
+                colors.forEach((color) => {
+                    total_percent += parseInt(color.percent);
+                })
+                if(total_percent == 0) {
+                    alert('set color percentages!');
+                }
+                else if(total_percent < 100) {
+                    alert('total color percentage < 100');
+                }
+                let points_array = Object.keys(this.points);
+                colors.forEach((color) => {
+                    const items = parseInt(total_points * color.percent / 100);
+                    const random = points_array.sort(() => .5 - Math.random()).slice(0,items) //get random points
+                    random.forEach((point) => {
+                        this.pointsColors.push({
+                            point: point,
+                            color: color.color
+                        })
+                    });
+                    points_array = points_array.filter( function( el ) {
+                        return random.indexOf( el ) < 0;
+                    });
+                })
+                this.$forceUpdate();
+            },
+            getPixelcolor(x,y, active) {
+                let point = this.pointsColors.find(o => o.point === `${x},${y}`);
+                if(point) {
+                    return point.color;
+                }
+                if(active) {
+                    return '#000';
+                }
+                return '#fff';
             },
             itemIsCenter(x,y) {
                 if( x == this.grid_size[0]/2 && y == this.grid_size[1]/2) {

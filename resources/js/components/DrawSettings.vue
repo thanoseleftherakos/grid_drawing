@@ -46,6 +46,14 @@
                 <h5><a href="#" @click.prevent="$emit('showpreview')">View all created symbols <i class="fas fa-arrow-right"></i></a></h5>
                 <h5><a href="#" @click.prevent="$emit('showaverage')">Show Average <i class="fas fa-arrow-right"></i></a></h5>
             </div>
+            <div class="draw-settings__row">
+                <h4>Auto Color</h4>
+                <color v-model="colors[0]" name='Color1'/>
+                <color v-model="colors[1]" name='Color2'/>
+                <color v-model="colors[2]" name='Color3'/>
+                <color v-model="colors[3]" name='Color4'/>
+                <button class="btn btn--blue" @click.prevent="runAutocolor">APPLY</button>
+            </div>
         </div>
         <div class="draw-settings__actions">
             <div class="draw-settings__actions__inner">
@@ -65,10 +73,11 @@
     import 'vue-slider-component/theme/antd.css'
     import vSelect from 'vue-select';
     import 'vue-select/dist/vue-select.css';
+    import Color from './Color'
     export default {
         props: ['drawMode', 'totalPoints', 'resolution', 'symbol_id', 'loading', 'existingImage', 'symbol_categories','symbol_category_id'],
         components: {
-            VueSlider, vSelect
+            VueSlider, vSelect,Color
         },
         data() {
             return {
@@ -81,7 +90,13 @@
                     rotate: 0,
                 },
                 imageOpacity: 1.0,
-                gridOpacity: 1.0
+                gridOpacity: 1.0,
+                colors: [
+                    { percent: 25, color: '#000000'},
+                    { percent: 25, color: '#53f144'},
+                    { percent: 25, color: '#f03636'},
+                    { percent: 25, color: '#3399ec'}
+                ]
             }
         },
         mounted() {
@@ -106,6 +121,10 @@
             }
         },
         methods: {
+            runAutocolor() {
+                this.$emit('colorsChanged', this.colors)
+            },
+
             onFileChange(e) {
                 const file = e.target.files[0];
                 this.image = file;

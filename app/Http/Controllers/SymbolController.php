@@ -17,6 +17,11 @@ class SymbolController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function callAction($method, $parameters) //php 8 fix
+    {
+        return parent::callAction($method, array_values($parameters));
+    }
+
     public function index()
     {
         $symbols = Symbol::select('id','preview')->get();
