@@ -76,14 +76,14 @@ export default {
     width: 100%;
     height: 100%;
     z-index: 99999;
-    background: #000;
+    background: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
     .grid-c__box__item {
-        outline: 1px solid rgba(255, 255, 255, 0);
+        outline: 1px solid rgba(0, 0, 0, 0);
         &.active {
-            background: #fff;
+            background: #000;
         }
     }
 }
