@@ -17,17 +17,8 @@ Route::get('/', function () {
     return view('createsymbol')->with('symbol_categories',$symbol_categories);
 });
 
-Route::get('/php', function () {
-    return phpinfo();
-});
 
-Route::get('/addcat', function () { 
-    $symbols = \App\Models\Symbol::all();
-    foreach ($symbols as $key => $symbol) {
-        $symbol = \App\Models\Symbol::find($symbol->id);
-        $symbol->symbol_category_id = 1;
-        $symbol->update();
-    }
-    return 'ok';
+Route::get('/pallimpsest', function () {
+    $symbol = \App\Models\Symbol::where('symbol_category_id', 3)->with('points')->inRandomOrder()->first();
+    return view('pallimpsest')->with('symbol',$symbol);
 });
-
